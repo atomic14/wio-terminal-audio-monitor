@@ -7,7 +7,7 @@ class Processor
 private:
 public:
   int m_window_size;
-  float *m_energy;
+  int *m_energy;
   int *m_fft_input;
   int *m_imag;
   int *m_real;

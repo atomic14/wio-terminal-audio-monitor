@@ -1,6 +1,6 @@
 #include <Arduino.h>
 #include <algorithm>
-#include <TFT_eSPI.h>
+#include <LovyanGFX.hpp>
 #include "Palette.h"
 #include "GraphicEqualiser.h"
 
@@ -22,11 +22,11 @@ GraphicEqualiser::GraphicEqualiser(Palette *palette, int x, int y, int width, in
   }
 }
 
-void GraphicEqualiser::update(float *mag)
+void GraphicEqualiser::update(int *mag)
 {
   for (int i = 0; i < m_num_bins; i++)
   {
-    float m = mag[i];
+    float m = (float)(mag[i] >> 3);
     if (m > bar_chart[i])
     {
       bar_chart[i] = m;
@@ -46,7 +46,7 @@ void GraphicEqualiser::update(float *mag)
   }
 }
 
-void GraphicEqualiser::_draw(TFT_eSPI &display)
+void GraphicEqualiser::_draw(LGFX &display)
 {
   int x = 0;
   int x_step = int(width / (m_num_bins / 16));
@@ -58,17 +58,17 @@ void GraphicEqualiser::_draw(TFT_eSPI &display)
       ave += bar_chart[i + j];
     }
     ave /= 4;
-    int bar_value = std::min(height, int(0.5f * ave));
+    int bar_value = std::min(height - 1, int(0.5f * ave));
     ave = 0;
     for (int j = 0; j < 4; j++)
     {
       ave += bar_chart_peaks[i + j];
     }
     ave /= 4;
-    int peak_value = std::min(height, int(0.5f * ave));
+    int peak_value = std::min(height - 1, int(0.5f * ave));
     display.fillRect(x, 0, x_step, height - bar_value - 1, 0);
-    display.drawLine(x, height - peak_value - 1, x + x_step - 1, height - peak_value - 1, m_palette->get_color(135 + peak_value));
-    display.fillRect(x, height - bar_value - 1, x_step - 1, bar_value, m_palette->get_color(135 + bar_value));
+    display.drawLine(x, height - peak_value - 1, x + x_step - 1, height - peak_value - 1, m_palette->get_color(100 + peak_value));
+    display.fillRect(x, height - bar_value - 1, x_step - 1, bar_value, m_palette->get_color(100 + bar_value));
     x += x_step;
   }
   display.fillRect(x, 0, width - x, height, 0);

@@ -252,6 +252,7 @@ Serial.print("*2^");Serial.println(scale);
 */
 
   //---> here onward out_r contains amplitude and our_in conntains frequency (Hz)
+
   int fout, fm, fstp;
   float fstep;
   fstep = Frequency / N;
@@ -270,11 +271,6 @@ Serial.print("*2^");Serial.println(scale);
       fm = i;
       fout = out_r[i];
     }
-    /*
-         // un comment to print Amplitudes (1st value (offset) is not printed)
-         Serial.print(out_r[i]); Serial.print("\t"); 
-         Serial.print("*2^");Serial.println(scale); 
-         */
   }
 
   float fa, fb, fc;
@@ -284,6 +280,7 @@ Serial.print("*2^");Serial.println(scale);
   fstep = (fa * (fm - 1) + fb * fm + fc * (fm + 1)) / (fa + fb + fc);
 
   return (fstep * Frequency / N);
+  // return 0;
 }
 
 //---------------------------------fast sine/cosine---------------------------------------//

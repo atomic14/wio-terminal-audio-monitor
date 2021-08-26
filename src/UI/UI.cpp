@@ -1,12 +1,12 @@
 #include <Arduino.h>
-#include <TFT_eSPI.h>
+#include <LovyanGFX.hpp>
 #include "UI.h"
 #include "UI/Waveform.h"
 #include "UI/Palette.h"
 #include "UI/GraphicEqualiser.h"
 #include "UI/Spectrogram.h"
 
-UI::UI(TFT_eSPI &display, int window_size) : m_display(display)
+UI::UI(LGFX &display, int window_size) : m_display(display)
 {
   Serial.printf("Display is %d x %d\n", display.width(), display.height());
   m_palette = new Palette();
@@ -15,8 +15,8 @@ UI::UI(TFT_eSPI &display, int window_size) : m_display(display)
   m_spectrogram = new Spectrogram(m_palette, 0, 0, display.width(), display.height());
   // start off with the spectrogram hidden
   m_waveform->visible = false;
-  m_spectrogram->visible = false;
-  m_graphic_equaliser->visible = true;
+  m_spectrogram->visible = true;
+  m_graphic_equaliser->visible = false;
   // create a drawing task to update our UI
   // xTaskCreatePinnedToCore(drawing_task, "Drawing Task", 4096, this, 1, &m_draw_task_handle, 1);
 }
@@ -29,7 +29,7 @@ void UI::toggle_display()
   m_waveform->visible = tmp;
 }
 
-void UI::update(int *samples, float *fft)
+void UI::update(int *samples, int *fft)
 {
   m_waveform->update(samples);
   m_graphic_equaliser->update(fft);

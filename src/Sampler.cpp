@@ -11,15 +11,14 @@ void timerIsr()
   // have we collected enough samples?
   if (instance->current_index >= instance->buffer_size)
   {
-    // if we have then stop collecting
+    // just loop back round to the start - doesn't really matter if we overwrite samples
     instance->current_index = 0;
-    instance->is_full = true;
-    TC.stopTimer();
   }
 }
 
-Sampler::Sampler(int buffer_size)
+Sampler::Sampler(int sample_rate, int buffer_size)
 {
+  this->sample_rate = sample_rate;
   this->buffer_size = buffer_size;
   this->buffer = reinterpret_cast<int16_t *>(malloc(buffer_size * sizeof(int16_t)));
   this->current_index = 0;
@@ -29,6 +28,5 @@ Sampler::Sampler(int buffer_size)
 
 void Sampler::start()
 {
-  is_full = false;
-  TC.startTimer(125, timerIsr); // approx 8KHz sample rate
+  TC.startTimer(1000000 / sample_rate, timerIsr);
 }

@@ -10,20 +10,35 @@ uint16_t rgb_to_uint16(float r, float g, float b)
   return (ri << 11) | (gi << 5) | bi;
 }
 
-// DEFINE_GRADIENT_PALETTE(blackToRed){
-//     0, 0, 0, 50,      //dark blue
-//     128, 0, 255, 0,   //green
-//     164, 255, 220, 0, //bright yellow
-//     192, 255, 128, 0, //bright orange
-//     255, 255, 0, 0    //full red
-// };
-// CRGBPalette256 blackToRedPal = blackToRed;
+typedef struct
+{
+  int i, r, g, b;
+} RGB_t;
+
+static RGB_t colors[] = {
+    {0, 0, 0, 50},      //dark blue
+    {128, 0, 255, 0},   //green
+    {164, 255, 220, 0}, //bright yellow
+    {192, 255, 128, 0}, //bright orange
+    {256, 255, 0, 0}    //full red
+};
+static int color_count = 5;
 
 Palette::Palette()
 {
-  // for (int i = 0; i < 256; ++i)
-  // {
-  //   CRGB color = ColorFromPalette(blackToRedPal, i, 255, LINEARBLEND);
-  //   colors[i] = rgb_to_uint16(color.r / 255.0f, color.g / 255.0f, color.b / 255.0f);
-  // }
+  int palette_index = 0;
+  for (int i = 0; i < color_count - 1; i++)
+  {
+    RGB_t color1 = colors[i];
+    RGB_t color2 = colors[i + 1];
+    int range = color2.i - color1.i;
+    for (int j = 0; j < range; j++)
+    {
+      uint8_t r = color1.r + (color2.r - color1.r) * j / range;
+      uint8_t g = color1.g + (color2.g - color1.g) * j / range;
+      uint8_t b = color1.b + (color2.b - color1.b) * j / range;
+      palette[palette_index] = rgb_to_uint16(r / 255.0f, g / 255.0f, b / 255.0f);
+      palette_index++;
+    }
+  }
 }

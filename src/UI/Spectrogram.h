@@ -14,6 +14,6 @@ private:
 
 public:
   Spectrogram(Palette *palette, int x, int y, int width, int height);
-  void update(float *magnitudes);
-  void _draw(TFT_eSPI &display);
+  void update(int *magnitudes);
+  void _draw(LGFX &display);
 };

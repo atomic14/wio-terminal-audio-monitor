@@ -1,29 +1,20 @@
 #include <Arduino.h>
-#include <TFT_eSPI.h>
+#include <LovyanGFX.hpp>
+#include <FreeRTOS_SAMD51.h>
 #include "Application.h"
 #include "UI/UI.h"
 #include "AudioProcessing/Processor.h"
 #include "config.h"
 #include "Sampler.h"
 
-// Task to process samples
-void processing_task(void *param)
-{
-  Application *application = (Application *)param;
-  // just sit in a loop processing samples as quickly as possible
-  while (true)
-  {
-    application->process_samples();
-  }
-}
-
-Application::Application(TFT_eSPI &display)
+Application::Application(LGFX &display)
 {
   m_window_size = WINDOW_SIZE;
   m_sample_buffer = (int16_t *)malloc(sizeof(int16_t) * WINDOW_SIZE);
   m_ui = new UI(display, m_window_size);
   m_processor = new Processor(m_window_size);
-  m_sampler = new Sampler(m_window_size);
+  m_sampler = new Sampler(SAMPLE_RATE, m_window_size);
+  pinMode(WIO_5S_PRESS, INPUT_PULLUP);
 }
 
 void Application::begin()
@@ -32,16 +23,29 @@ void Application::begin()
   m_sampler->start();
 }
 
+unsigned long process_time = 0;
+int process_count = 0;
+int last_push = 0;
+
 void Application::loop()
 {
-  // is the sampler full of data?
-  if (m_sampler->is_full)
+  auto start = millis();
+  // run the fft
+  m_processor->update(m_sampler->get_buffer());
+  auto end = millis();
+  process_time += end - start;
+  process_count++;
+  if (process_count == 20)
   {
-    // run the fft
-    m_processor->update(m_sampler->get_buffer());
-    // update the UI
-    m_ui->update(m_processor->m_fft_input, m_processor->m_energy);
-    // start collecting samples again
-    m_sampler->start();
+    Serial.printf("Processing time %ld\n", process_time / 20);
+    process_count = 0;
+    process_time = 0;
+  }
+  m_ui->update(m_processor->m_fft_input, m_processor->m_energy);
+  // change display on button push
+  if (digitalRead(WIO_5S_PRESS) == LOW && millis() - last_push > 500)
+  {
+    last_push = millis();
+    m_ui->toggle_display();
   }
 }

@@ -1,30 +1,27 @@
 #include <Arduino.h>
-//#include "TFT_eSPI.h"
-//#include "Application.h"
+#include "Application.h"
+#include <TFT_eSPI.h>
+#include <LovyanGFX.hpp>
 
-//Application *application;
-
+Application *application;
+LGFX *display = new LGFX();
 void setup()
 {
-  //Serial.begin(115200);
-  pinMode(13, OUTPUT);
+  Serial.begin(115200);
 
-  // pinMode(WIO_MIC, INPUT);
+  Serial.println("Starting");
+
   // TFT_eSPI *display = new TFT_eSPI();
-  // display->begin();
-  // display->setRotation(1);
+  display->begin();
+  display->setRotation(1);
+  display->setBrightness(255);
+  display->setColorDepth(16);
 
-  // application = new Application(*display);
-  // application->begin();
+  application = new Application(*display);
+  application->begin();
 }
-
-bool isLEDOn = false;
 
 void loop()
 {
-  //Serial.println("loop");
-  delay(1000);
-  digitalWrite(13, isLEDOn);
-  isLEDOn = !isLEDOn;
-  // application->loop();
+  application->loop();
 }

@@ -9,7 +9,7 @@ private:
   int m_num_samples;
 
 public:
-  Waveform(TFT_eSPI &display, int x, int y, int width, int height, int num_samples);
+  Waveform(LGFX &display, int x, int y, int width, int height, int num_samples);
   void update(int *samples);
-  void _draw(TFT_eSPI &display);
+  void _draw(LGFX &display);
 };

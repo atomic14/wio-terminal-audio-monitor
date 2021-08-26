@@ -3,13 +3,13 @@
 class Sampler
 {
 private:
+  int sample_rate;
   int buffer_size;
   int16_t *buffer;
   int current_index;
 
 public:
-  bool is_full = false;
-  Sampler(int buffer_size);
+  Sampler(int sample_rate, int buffer_size);
   void start();
   int16_t *get_buffer()
   {

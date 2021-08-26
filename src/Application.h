@@ -3,7 +3,7 @@
 class UI;
 class Processor;
 class Sampler;
-class TFT_eSPI;
+class LGFX;
 
 class Application
 {
@@ -14,12 +14,8 @@ private:
   Processor *m_processor;
   Sampler *m_sampler;
 
-  void process_samples();
-
 public:
-  Application(TFT_eSPI &display);
+  Application(LGFX &display);
   void begin();
   void loop();
-
-  friend void processing_task(void *param);
 };

@@ -8,7 +8,7 @@ Processor::Processor(int window_size)
   m_fft_input = static_cast<int *>(malloc(sizeof(int) * window_size));
   m_real = static_cast<int *>(malloc(sizeof(int) * window_size));
   m_imag = static_cast<int *>(malloc(sizeof(int) * window_size));
-  m_energy = static_cast<float *>(malloc(sizeof(float) * window_size / 4));
+  m_energy = static_cast<int *>(malloc(sizeof(int) * window_size / 2));
 }
 
 void Processor::update(int16_t *samples)
@@ -20,8 +20,8 @@ void Processor::update(int16_t *samples)
   }
   Approx_FFT(m_fft_input, m_real, m_imag, m_window_size, 8000);
 
-  for (int i = 0; i < m_window_size / 4; i++)
+  for (int i = 0; i < m_window_size / 2; i++)
   {
-    m_energy[i] = sqrtf(m_real[i] * m_real[i] + m_imag[i] * m_imag[i]);
+    m_energy[i] = m_real[i];
   }
 }

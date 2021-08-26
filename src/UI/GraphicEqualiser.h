@@ -13,6 +13,6 @@ private:
 
 public:
   GraphicEqualiser(Palette *palette, int x, int y, int width, int height, int num_bins);
-  void update(float *mag);
-  void _draw(TFT_eSPI &display);
+  void update(int *mag);
+  void _draw(LGFX &display);
 };

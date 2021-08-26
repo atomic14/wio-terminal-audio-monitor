@@ -1,5 +1,5 @@
 #include <Arduino.h>
-#include <TFT_eSPI.h>
+#include <LovyanGFX.hpp>
 #include "Spectrogram.h"
 #include "Bitmap.h"
 #include "Palette.h"
@@ -10,16 +10,16 @@ Spectrogram::Spectrogram(Palette *palette, int x, int y, int width, int height) 
   this->bitmap = new Bitmap(width, height);
 }
 
-void Spectrogram::update(float *mag)
+void Spectrogram::update(int *mag)
 {
   bitmap->scroll_left();
   for (int i = 0; i < bitmap->height; i++)
   {
-    bitmap->rows[bitmap->height - i - 1][bitmap->width - 1] = m_palette->get_color(mag[i]);
+    bitmap->rows[bitmap->height - i - 1][bitmap->width - 1] = m_palette->get_color(mag[i] / 4);
   }
 }
 
-void Spectrogram::_draw(TFT_eSPI &display)
+void Spectrogram::_draw(LGFX &display)
 {
   display.setSwapBytes(true);
   display.pushImage(x, y, bitmap->width, bitmap->height, bitmap->pixels);
