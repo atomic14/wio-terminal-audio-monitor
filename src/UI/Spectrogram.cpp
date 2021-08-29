@@ -1,5 +1,5 @@
 #include <Arduino.h>
-#include <LovyanGFX.hpp>
+#include "../Display.h"
 #include "Spectrogram.h"
 #include "Bitmap.h"
 #include "Palette.h"
@@ -19,7 +19,7 @@ void Spectrogram::update(int *mag)
   }
 }
 
-void Spectrogram::_draw(LGFX &display)
+void Spectrogram::_draw(Display &display)
 {
   display.setSwapBytes(true);
   display.pushImage(x, y, bitmap->width, bitmap->height, bitmap->pixels);

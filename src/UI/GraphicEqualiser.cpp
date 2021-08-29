@@ -1,6 +1,6 @@
 #include <Arduino.h>
 #include <algorithm>
-#include <LovyanGFX.hpp>
+#include "../Display.h"
 #include "Palette.h"
 #include "GraphicEqualiser.h"
 
@@ -46,7 +46,7 @@ void GraphicEqualiser::update(int *mag)
   }
 }
 
-void GraphicEqualiser::_draw(LGFX &display)
+void GraphicEqualiser::_draw(Display &display)
 {
   int x = 0;
   int x_step = int(width / (m_num_bins / 16));

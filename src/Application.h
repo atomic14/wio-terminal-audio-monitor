@@ -3,19 +3,18 @@
 class UI;
 class Processor;
 class Sampler;
-class LGFX;
+class Display;
 
 class Application
 {
 private:
   int m_window_size;
-  int16_t *m_sample_buffer;
   UI *m_ui;
   Processor *m_processor;
   Sampler *m_sampler;
 
 public:
-  Application(LGFX &display);
+  Application(Display &display);
   void begin();
   void loop();
 };

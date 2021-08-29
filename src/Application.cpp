@@ -1,16 +1,14 @@
 #include <Arduino.h>
-#include <LovyanGFX.hpp>
-#include <FreeRTOS_SAMD51.h>
+#include "Display.h"
 #include "Application.h"
 #include "UI/UI.h"
 #include "AudioProcessing/Processor.h"
 #include "config.h"
 #include "Sampler.h"
 
-Application::Application(LGFX &display)
+Application::Application(Display &display)
 {
   m_window_size = WINDOW_SIZE;
-  m_sample_buffer = (int16_t *)malloc(sizeof(int16_t) * WINDOW_SIZE);
   m_ui = new UI(display, m_window_size);
   m_processor = new Processor(m_window_size);
   m_sampler = new Sampler(SAMPLE_RATE, m_window_size);

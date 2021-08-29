@@ -1,8 +1,8 @@
 #include <Arduino.h>
-#include <LovyanGFX.hpp>
+#include "../Display.h"
 #include "Waveform.h"
 
-Waveform::Waveform(LGFX &display, int x, int y, int width, int height, int num_samples) : Component(x, y, width, height)
+Waveform::Waveform(Display &display, int x, int y, int width, int height, int num_samples) : Component(x, y, width, height)
 {
   m_num_samples = num_samples;
   m_samples = static_cast<int *>(malloc(sizeof(int) * num_samples));
@@ -13,7 +13,7 @@ void Waveform::update(int *samples)
   memcpy(m_samples, samples, sizeof(int) * m_num_samples);
 }
 
-void Waveform::_draw(LGFX &display)
+void Waveform::_draw(Display &display)
 {
   float x = 0;
   float x_step = (float)width / (float)m_num_samples;

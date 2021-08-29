@@ -3,5 +3,5 @@
 // sample rate for the system
 #define SAMPLE_RATE 8000
 
-// approx 30ms of audio @ 16KHz
+// approx 60ms of audio @ 8KHz
 #define WINDOW_SIZE 512

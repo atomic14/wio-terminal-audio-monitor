@@ -15,5 +15,5 @@ private:
 public:
   Spectrogram(Palette *palette, int x, int y, int width, int height);
   void update(int *magnitudes);
-  void _draw(LGFX &display);
+  void _draw(Display &display);
 };

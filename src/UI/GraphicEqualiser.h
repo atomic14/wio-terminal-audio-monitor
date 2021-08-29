@@ -14,5 +14,5 @@ private:
 public:
   GraphicEqualiser(Palette *palette, int x, int y, int width, int height, int num_bins);
   void update(int *mag);
-  void _draw(LGFX &display);
+  void _draw(Display &display);
 };
