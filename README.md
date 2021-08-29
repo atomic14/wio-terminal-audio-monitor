@@ -1,3 +1,5 @@
+![build status](https://github.com/atomic14/wio-terminal-audio-monitor/actions/workflows/build-on-push.yml/badge.svg)
+
 # WIO Terminal Audio Monitor
 
 This is a port of my audio monitor for the ESP32 (https://github.com/atomic14/esp32-tft-audio-monitor) to the WIO Terminal.
