@@ -7,7 +7,7 @@
 Application *application;
 
 #define USE_LGFX
-// #define USE_TFT
+//#define USE_TFT
 
 void setup()
 {

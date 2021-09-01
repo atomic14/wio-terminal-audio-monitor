@@ -26,7 +26,7 @@ void GraphicEqualiser::update(int *mag)
 {
   for (int i = 0; i < m_num_bins; i++)
   {
-    float m = (float)(mag[i] >> 3);
+    float m = (float)(mag[i])/10.0f;
     if (m > bar_chart[i])
     {
       bar_chart[i] = m;
