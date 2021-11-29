@@ -1,7 +1,10 @@
 #include <Arduino.h>
 #include "Application.h"
+#ifdef USE_TFT
 #include <TFT_eSPI.h>
+#else
 #include <LovyanGFX.hpp>
+#endif
 #include "Display.h"
 
 Application *application;
